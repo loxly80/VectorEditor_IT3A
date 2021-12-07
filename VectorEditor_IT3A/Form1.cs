@@ -14,36 +14,40 @@ namespace VectorEditor_IT3A
 {
     public partial class Form1 : Form
     {
-        List<PointF> points;
+        List<Object> objects;
+        ShapeObject selectedShape = ShapeObject.None;
+        Rectangle tempRectange;
 
         public Form1()
         {
             InitializeComponent();
-            points = new List<PointF>();
+            objects = new List<Object>();
         }
 
         private void Canvas_MouseClick(object sender, MouseEventArgs e)
         {
-            this.Text = e.Location.ToString();
-            points.Add(e.Location);
-            Canvas.Refresh();
+            if (selectedShape == ShapeObject.Point)
+            {
+                objects.Add(new Point(e.Location.X, e.Location.Y, Color.Blue, 8, Shape.Circle));
+                Canvas.Refresh();
+            }
         }
 
         private void Canvas_Paint(object sender, PaintEventArgs e)
         {
-            if(points.Count > 1)
+            foreach (var obj in objects)
             {
-                e.Graphics.DrawLines(Pens.Red, points.ToArray());
+                obj.Draw(e.Graphics);                
             }
-            foreach (var point in points)
+            if(tempRectange != null)
             {
-                e.Graphics.FillRectangle(Brushes.Blue, point.X - 4, point.Y - 4, 8, 8);
-            }
+                tempRectange.Draw(e.Graphics);
+            }            
         }
 
         private void sfd_FileOk(object sender, CancelEventArgs e)
         {
-            var json = JsonConvert.SerializeObject(points, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(objects, Formatting.Indented);
             File.WriteAllText(sfd.FileName, json);
         }
 
@@ -53,6 +57,35 @@ namespace VectorEditor_IT3A
             {
                 sfd.ShowDialog();
             }
+        }
+
+        private enum ShapeObject
+        {
+            None,
+            Point,
+            Rectangle
+        }
+
+        private void btnPoint_Click(object sender, EventArgs e)
+        {
+            selectedShape = ShapeObject.Point;
+            this.Text = selectedShape.ToString();
+        }
+
+        private void btnRectangle_Click(object sender, EventArgs e)
+        {
+            selectedShape = ShapeObject.Rectangle;
+            this.Text = selectedShape.ToString();
+        }
+
+        private void Canvas_MouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void Canvas_MouseUp(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }
