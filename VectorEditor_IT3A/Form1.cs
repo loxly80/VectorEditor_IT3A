@@ -82,7 +82,7 @@ namespace VectorEditor_IT3A
         {
             if (selectedShape == ShapeObject.Rectangle)
             {
-                tempRectange = new Rectangle(new Point(e.X, e.Y), 0, 0);
+                tempRectange = new Rectangle(new Point(e.X, e.Y), new Point(e.X, e.Y));
             }            
         }
 
@@ -90,8 +90,7 @@ namespace VectorEditor_IT3A
         {
             if (selectedShape == ShapeObject.Rectangle)
             {
-                tempRectange.Width =  Math.Abs(e.X - tempRectange.Point.X);
-                tempRectange.Height = Math.Abs(e.Y - tempRectange.Point.Y);
+                tempRectange.Point2 = new Point(e.X, e.Y);
                 objects.Add(tempRectange);
                 tempRectange = null;
             }
@@ -102,8 +101,7 @@ namespace VectorEditor_IT3A
         {
             if(tempRectange != null)
             {
-                tempRectange.Width = Math.Abs(e.X - tempRectange.Point.X);
-                tempRectange.Height = Math.Abs(e.Y - tempRectange.Point.Y);
+                tempRectange.Point2 = new Point(e.X, e.Y);
                 Canvas.Refresh();
             }            
         }
