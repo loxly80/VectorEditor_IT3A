@@ -18,6 +18,8 @@ namespace VectorEditor_IT3A
             Point = point;
             Width = width;
             Height = height;
+            LineWidth = 1;
+            Color = Color.Black;
         }
 
         public Rectangle(Point point, float width, float height, Color color, int lineWidth)

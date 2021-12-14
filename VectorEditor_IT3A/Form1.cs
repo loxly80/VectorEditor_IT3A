@@ -80,12 +80,32 @@ namespace VectorEditor_IT3A
 
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
-
+            if (selectedShape == ShapeObject.Rectangle)
+            {
+                tempRectange = new Rectangle(new Point(e.X, e.Y), 0, 0);
+            }            
         }
 
         private void Canvas_MouseUp(object sender, MouseEventArgs e)
         {
+            if (selectedShape == ShapeObject.Rectangle)
+            {
+                tempRectange.Width =  Math.Abs(e.X - tempRectange.Point.X);
+                tempRectange.Height = Math.Abs(e.Y - tempRectange.Point.Y);
+                objects.Add(tempRectange);
+                tempRectange = null;
+            }
+            Canvas.Refresh();
+        }
 
+        private void Canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(tempRectange != null)
+            {
+                tempRectange.Width = Math.Abs(e.X - tempRectange.Point.X);
+                tempRectange.Height = Math.Abs(e.Y - tempRectange.Point.Y);
+                Canvas.Refresh();
+            }            
         }
     }
 }
